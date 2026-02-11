@@ -10,10 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packageRoot = path.resolve(__dirname, '..');
 const require = createRequire(import.meta.url);
 
-const command = process.argv[2];
-const args = process.argv.slice(3);
-
-// Parse --input and --output flags
+// Parse --input and --output flags from all args, extract command as first non-flag arg
 function parseFlags(argv) {
   let inputDir = process.cwd();
   let outputDir = null;
@@ -31,7 +28,9 @@ function parseFlags(argv) {
   return { inputDir, outputDir, rest };
 }
 
-const { inputDir, outputDir, rest: extraArgs } = parseFlags(args);
+const { inputDir, outputDir, rest: positionalArgs } = parseFlags(process.argv.slice(2));
+const command = positionalArgs[0];
+const extraArgs = positionalArgs.slice(1);
 
 // Terminal colors
 const c = {
