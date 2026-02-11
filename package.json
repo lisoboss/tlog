@@ -1,7 +1,7 @@
 {
   "name": "tlog",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A minimal, beautiful blog generator powered by Astro. Use npx to init and build blogs from any directory.",
   "bin": {
     "tlog": "bin/cli.mjs"
