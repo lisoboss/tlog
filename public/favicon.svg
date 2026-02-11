@@ -8,8 +8,8 @@
   </defs>
   <!-- 背景，带圆角 -->
   <rect width="64" height="64" rx="8" fill="url(#bgGradient)"/>
-  <!-- 居中显示黑色加粗字母 Z -->
+  <!-- 居中显示黑色加粗字母 T -->
   <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="36" fill="#000000" font-family="Arial, sans-serif" font-weight="900">
-    Z
+    T
   </text>
 </svg>

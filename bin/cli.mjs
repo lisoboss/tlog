@@ -27,7 +27,7 @@ function parseFlags(argv) {
       rest.push(argv[i]);
     }
   }
-  if (!outputDir) outputDir = path.resolve(inputDir, 'dist');
+  if (!outputDir) outputDir = path.resolve(inputDir, '.dist');
   return { inputDir, outputDir, rest };
 }
 
@@ -72,7 +72,7 @@ function printHelp() {
 ${c.bold('tlog')} - A minimal, beautiful blog generator
 
 ${c.bold('USAGE')}
-  npx tlog <command> [options]
+  tlog <command> [options]
 
 ${c.bold('COMMANDS')}
   ${c.cyan('init')}              Initialize a new blog in the current directory
@@ -83,14 +83,14 @@ ${c.bold('COMMANDS')}
 
 ${c.bold('OPTIONS')}
   ${c.cyan('--input, -i')} ${c.dim('<dir>')}   Source directory (default: current dir)
-  ${c.cyan('--output, -o')} ${c.dim('<dir>')}  Output directory (default: <input>/dist)
+  ${c.cyan('--output, -o')} ${c.dim('<dir>')}  Output directory (default: <input>/.dist)
 
 ${c.bold('EXAMPLES')}
-  npx tlog init
-  npx tlog dev
-  npx tlog build --input ./my-blog --output ./public
-  npx tlog new my-first-post
-  npx tlog build
+  tlog init
+  tlog dev
+  tlog build --input ./my-blog --output ./public
+  tlog new my-first-post
+  tlog build
 `);
 }
 
@@ -149,19 +149,19 @@ Welcome to my blog! This is your first post.
 Edit this file or create new posts with:
 
 \`\`\`bash
-npx tlog new my-new-post
+tlog new my-new-post
 \`\`\`
 
 Then start the dev server:
 
 \`\`\`bash
-npx tlog dev
+tlog dev
 \`\`\`
 
 Build for production:
 
 \`\`\`bash
-npx tlog build
+tlog build
 \`\`\`
 
 Happy writing!
@@ -170,7 +170,7 @@ Happy writing!
   ];
 
   // Generate favicon from title initial
-  const initial = filesToCreate[0].content.match(/title\s*=\s*"([^"]*)"/)?.[1]?.[0]?.toUpperCase() || 'Z';
+  const initial = filesToCreate[0].content.match(/title\s*=\s*"([^"]*)"/)?.[1]?.[0]?.toUpperCase() || 'T';
   filesToCreate.push({
     path: '.public/favicon.svg',
     content: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
@@ -204,8 +204,8 @@ ${c.green('  ✓ Blog initialized!')}
 
   Next steps:
     1. Edit ${c.cyan(CONFIG_FILE)} to customize your site
-    2. Run ${c.cyan('npx tlog dev')} to start the dev server
-    3. Run ${c.cyan('npx tlog new <post-name>')} to create a new post
+    2. Run ${c.cyan('tlog dev')} to start the dev server
+    3. Run ${c.cyan('tlog new <post-name>')} to create a new post
 `);
 }
 
@@ -214,7 +214,7 @@ ${c.green('  ✓ Blog initialized!')}
 async function newPost(name) {
   if (!name) {
     console.error(c.red('  Error: Post name is required.'));
-    console.error(`  Usage: ${c.cyan('npx tlog new <post-name>')}`);
+    console.error(`  Usage: ${c.cyan('tlog new <post-name>')}`);
     process.exit(1);
   }
 
@@ -256,7 +256,7 @@ async function loadUserConfig() {
   const configPath = path.join(inputDir, CONFIG_FILE);
   if (!fs.existsSync(configPath)) {
     console.error(c.red(`  Error: ${CONFIG_FILE} not found in ${inputDir}`));
-    console.error(`  Run ${c.cyan('npx tlog init')} first.\n`);
+    console.error(`  Run ${c.cyan('tlog init')} first.\n`);
     process.exit(1);
   }
 

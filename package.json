@@ -14,7 +14,11 @@
     "tailwind.config.mjs",
     "tsconfig.json"
   ],
-  "scripts": {},
+  "scripts": {
+    "test": "node --test tests/config.test.mjs tests/content.test.mjs tests/project.test.mjs tests/cli.test.mjs",
+    "test:docker": "node --test tests/docker.test.mjs",
+    "test:all": "node --test tests/*.test.mjs"
+  },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",

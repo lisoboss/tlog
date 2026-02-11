@@ -4,9 +4,6 @@ dist/
 # generated types
 .astro/
 
-# fallback content dir (for local dev)
-src/content/blog/
-
 # dependencies
 node_modules/
 
