@@ -1,0 +1,32 @@
+---
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+
+const iconMap: Record<string, string> = {
+  Rust: '🦀',
+  Python: '🐍',
+  Go: '🐹',
+  TypeScript: '📘',
+  JavaScript: '📒',
+  Docker: '🐳',
+  Linux: '🐧',
+  C: '⚙️',
+  'C++': '⚙️',
+  Shell: '🐚',
+  Java: '☕',
+  Swift: '🍎',
+  Lua: '🌙',
+};
+---
+
+<div class="flex flex-wrap gap-2">
+  {items.map((item) => (
+    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-ctp-surface0 text-ctp-subtext1 text-sm border border-ctp-surface2 hover:bg-ctp-surface1 hover:text-ctp-text transition-colors">
+      <span>{iconMap[item] || '💻'}</span>
+      <span>{item}</span>
+    </span>
+  ))}
+</div>

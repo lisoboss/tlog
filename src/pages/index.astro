@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import BlogPreview from '../components/BlogPreview.astro'
+import SocialLinks from '../components/SocialLinks.astro'
+import TypingEffect from '../components/TypingEffect.astro'
+import TechStack from '../components/TechStack.astro'
+import { getCollection } from 'astro:content'
+import { filterPosts } from '../utils/posts'
+import { siteConfig } from '../config'
+
+const posts = await getCollection('blog')
+
+// Configure homepage post filtering
+const homePagePosts = filterPosts(posts, {
+  ...siteConfig.homepage,
+})
+---
+
+<BaseLayout title={siteConfig.title}>
+  <!-- Hero Section -->
+  <div class="flex flex-col md:flex-row items-center gap-8 mb-16 mt-16">
+    <!-- Avatar -->
+    {siteConfig.avatar && (
+      <div class="shrink-0">
+        <img
+          src={siteConfig.avatar}
+          alt="avatar"
+          class="w-28 h-28 rounded-full ring-2 ring-ctp-surface2 shadow-lg"
+          loading="eager"
+        />
+      </div>
+    )}
+
+    <!-- Info -->
+    <div class="text-center md:text-left">
+      <h1 class="text-3xl md:text-4xl font-bold mb-2 text-ctp-text">
+        <TypingEffect words={siteConfig.slogan.split('.').map(s => s.trim()).filter(Boolean).map(s => s + '.')} />
+      </h1>
+      {siteConfig.bio && (
+        <p class="text-lg text-ctp-subtext0 mb-4">{siteConfig.bio}</p>
+      )}
+      <SocialLinks />
+    </div>
+  </div>
+
+  <!-- Tech Stack -->
+  {siteConfig.techStack && (
+    <div class="mb-12">
+      <h2 class="text-sm uppercase tracking-wider text-ctp-overlay2 mb-3 font-semibold">Tech Stack</h2>
+      <TechStack items={siteConfig.techStack} />
+    </div>
+  )}
+
+  <!-- Recent Posts -->
+  <div class="mb-4">
+    <h2 class="text-sm uppercase tracking-wider text-ctp-overlay2 mb-6 font-semibold">Recent Posts</h2>
+  </div>
+  <section>
+    {homePagePosts.map((post) => <BlogPreview post={post} />)}
+  </section>
+</BaseLayout>

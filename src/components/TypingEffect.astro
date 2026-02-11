@@ -1,0 +1,85 @@
+---
+interface Props {
+  words: string[];
+  typingSpeed?: number;
+  deletingSpeed?: number;
+  pauseDuration?: number;
+}
+
+const {
+  words,
+  typingSpeed = 100,
+  deletingSpeed = 60,
+  pauseDuration = 2000,
+} = Astro.props;
+---
+
+<span class="typing-container">
+  <span class="typing-text" data-words={JSON.stringify(words)}></span>
+  <span class="typing-cursor">|</span>
+</span>
+
+<style>
+  .typing-container {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .typing-cursor {
+    animation: blink 0.8s step-end infinite;
+    color: var(--catppuccin-color-mauve);
+    font-weight: 300;
+    margin-left: 1px;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+</style>
+
+<script define:vars={{ typingSpeed, deletingSpeed, pauseDuration }}>
+  function initTyping() {
+    const el = document.querySelector('.typing-text');
+    if (!el) return;
+
+    const words = JSON.parse(el.dataset.words || '[]');
+    if (!words.length) return;
+
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentWord = words[wordIndex];
+
+      if (isDeleting) {
+        el.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        el.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let delay = isDeleting ? deletingSpeed : typingSpeed;
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        delay = pauseDuration;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        delay = typingSpeed;
+      }
+
+      setTimeout(type, delay);
+    }
+
+    type();
+  }
+
+  // Run on initial load
+  initTyping();
+
+  // Re-run after Astro view transitions
+  document.addEventListener('astro:after-swap', initTyping);
+</script>

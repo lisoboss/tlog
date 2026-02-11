@@ -1,0 +1,18 @@
+---
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+<div class="flex gap-2">
+  {tags.map((tag) => (
+    <a
+      href={`/tags/${tag}`}
+      class="text-sm px-3 py-1 text-ctp-mauve bg-ctp-surface1 rounded-full hover:bg-ctp-surface2"
+    >
+      #{tag}
+    </a>
+  ))}
+</div>
